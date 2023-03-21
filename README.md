@@ -1,1 +1,0 @@
-# car-assist-schedule-backend
