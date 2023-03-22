@@ -1,3 +1,5 @@
+package com.una.entidades;
+
 import java.util.Date;
 
 import com.una.models.ServiceType;
