@@ -1,4 +1,4 @@
-package com.una.persistency;
+package com.una.persistence;
 
 import java.util.List;
 import java.util.UUID;
