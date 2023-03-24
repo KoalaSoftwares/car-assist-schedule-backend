@@ -24,7 +24,7 @@ public class DynamoDbConfig {
 
     @Bean(name="dynamoDBMapper")
     public DynamoDBMapper dynamoDBMapperLocal() {
-        Regions region = Regions.US_EAST_2;
+        Regions region = Regions.US_EAST_1;
         DynamoDBMapperConfig dbMapperConfig = new DynamoDBMapperConfig.Builder().withTableNameResolver(TABLE_NAME_RESOLVER).build();
         AmazonDynamoDBClient dynamoClient = getAmazonDynamoDBLocalClient(region);
         return new DynamoDBMapper(dynamoClient, dbMapperConfig);
