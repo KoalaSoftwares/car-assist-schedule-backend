@@ -1,4 +1,4 @@
-package com.una.persistence;
+package com.una.carassistschedulebackend.persistence;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
