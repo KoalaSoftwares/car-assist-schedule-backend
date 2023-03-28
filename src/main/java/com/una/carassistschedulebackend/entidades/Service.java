@@ -12,9 +12,9 @@ public class Service {
     private String serviceType;
     private BigDecimal price;
 
-    public Service() {
-    }
+    public Service() { super(); }
     public Service(String serviceType, BigDecimal price) {
+        super();
         this.serviceType = serviceType;
         this.price = price;
     }
