@@ -12,7 +12,7 @@ import com.una.carassistschedulebackend.models.ServiceType;
 @DynamoDBTable(tableName = "schedule")
 public class Schedule {
     private String id;
-    private String date;
+    private Date date;
     private BigDecimal price;
     private String serviceType;
     private String clientName;
@@ -23,9 +23,8 @@ public class Schedule {
         super();
     }
 
-    public Schedule(String id, String date, BigDecimal price, String serviceType, String clientName, String clientCar) {
+    public Schedule(Date date, BigDecimal price, String serviceType, String clientName, String clientCar) {
         super();
-        this.id = id;
         this.date = date;
         this.price = price;
         this.serviceType = serviceType;
@@ -44,11 +43,11 @@ public class Schedule {
     }
 
     @DynamoDBAttribute(attributeName = "date")
-    public String getDate() {
+    public Date getDate() {
         return this.date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
