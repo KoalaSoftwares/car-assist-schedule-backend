@@ -1,4 +1,4 @@
-package com.una.models;
+package com.una.carassistschedulebackend.models;
 
 public enum ServiceType {
     Wash,
