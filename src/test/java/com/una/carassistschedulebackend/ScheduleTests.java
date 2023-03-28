@@ -74,11 +74,11 @@ public class ScheduleTests {
 		@Test
 		public void creationTest() throws ParseException {
 			LOGGER.info("Creating objects...");
-			Schedule s1 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(102.34), ServiceType.OilChange.toString(), "Henrique", "HR-V");
-			Schedule s2 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), ServiceType.Wash.toString(), "Caio", "Ferrari");
-			Schedule s3 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(89.52), ServiceType.OilChange.toString(), "Jeff", "Lambo");
-			Schedule s4 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(174.88), ServiceType.Wash.toString(), "Daniel", "Mercedes");
-			Schedule s5 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(2.52), ServiceType.FilterChange.toString(), "Pedro", "Audi");
+			Schedule s1 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(102.34), ServiceType.OilChange.toString(), "Henrique", "HR-V", "PAID");
+			Schedule s2 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), ServiceType.Wash.toString(), "Caio", "Ferrari", "PAID");
+			Schedule s3 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(89.52), ServiceType.OilChange.toString(), "Jeff", "Lambo", "PAID");
+			Schedule s4 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(174.88), ServiceType.Wash.toString(), "Daniel", "Mercedes", "PAID");
+			Schedule s5 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(2.52), ServiceType.FilterChange.toString(), "Pedro", "Audi", "PAID");
 			repository.save(s1);
 			repository.save(s2);
 			repository.save(s3);
@@ -91,7 +91,7 @@ public class ScheduleTests {
 			}
 			LOGGER.info("Searching an object");
 			List<Schedule> result = repository.findByServiceType(ServiceType.OilChange);
-			assertEquals(result.size(), 2);
+			assertEquals(result.size(), 3);
 			LOGGER.info("Found: {}", result.size());
 		}
 

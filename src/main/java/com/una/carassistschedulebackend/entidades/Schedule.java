@@ -17,19 +17,21 @@ public class Schedule {
     private String serviceType;
     private String clientName;
     private String clientCar;
+    private String status;
 
 
     public Schedule() {
         super();
     }
 
-    public Schedule(Date date, BigDecimal price, String serviceType, String clientName, String clientCar) {
+    public Schedule(Date date, BigDecimal price, String serviceType, String clientName, String clientCar, String status) {
         super();
         this.date = date;
         this.price = price;
         this.serviceType = serviceType;
         this.clientName = clientName;
         this.clientCar = clientCar;
+        this.status = status;
     }
 
     @DynamoDBHashKey(attributeName = "scheduleId")
@@ -85,6 +87,15 @@ public class Schedule {
 
     public void setClientCar(String clientCar) {
         this.clientCar = clientCar;
+    }
+
+    @DynamoDBAttribute(attributeName = "status")
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
