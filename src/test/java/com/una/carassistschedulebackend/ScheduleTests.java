@@ -3,6 +3,8 @@ package com.una.carassistschedulebackend;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.amazonaws.auth.*;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.una.carassistschedulebackend.entidades.Schedule;
 import com.una.carassistschedulebackend.models.ServiceType;
 import com.una.carassistschedulebackend.persistence.ScheduleRepository;
@@ -21,10 +23,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -32,6 +30,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -46,24 +45,19 @@ public class ScheduleTests {
     @EnableDynamoDBRepositories(basePackageClasses = {ScheduleTests.class})
     public static class DynamoDBConfig {
 
-        @Value("${amazon.aws.accesskey}")
-        private String amazonAWSAccessKey;
-
-        @Value("${amazon.aws.secretkey}")
-        private String amazonAWSSecretKey;
-
         public AWSCredentialsProvider amazonAWSCredentialsProvider() {
-            return new AWSStaticCredentialsProvider(amazonAWSCredentials());
-        }
-
-        @Bean
-        public AWSCredentials amazonAWSCredentials() {
-            return new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSSecretKey);
+            List<AWSCredentialsProvider> providers = new ArrayList<>();
+            providers.add(new ProfileCredentialsProvider());
+            providers.add(new DefaultAWSCredentialsProviderChain());
+            return new AWSCredentialsProviderChain(
+                    providers.toArray(new AWSCredentialsProvider[providers.size()]));
         }
 
         @Bean
         public AmazonDynamoDB amazonDynamoDB() {
-            return AmazonDynamoDBClientBuilder.standard().withCredentials(amazonAWSCredentialsProvider())
+            return AmazonDynamoDBClientBuilder
+                    .standard()
+                    .withCredentials(amazonAWSCredentialsProvider())
                     .withRegion(Regions.US_EAST_1).build();
         }
     }
