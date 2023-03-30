@@ -7,15 +7,15 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import java.math.BigDecimal;
 
 @DynamoDBTable(tableName = "service")
-public class Service {
+public class Assistance {
     private String id;
-    private String serviceType;
+    private String assistanceType;
     private BigDecimal price;
 
-    public Service() { super(); }
-    public Service(String serviceType, BigDecimal price) {
+    public Assistance() { super(); }
+    public Assistance(String assistanceType, BigDecimal price) {
         super();
-        this.serviceType = serviceType;
+        this.assistanceType = assistanceType;
         this.price = price;
     }
 
@@ -31,11 +31,11 @@ public class Service {
 
     @DynamoDBAttribute(attributeName = "serviceType")
     public String getServiceType() {
-        return serviceType;
+        return assistanceType;
     }
 
     public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
+        this.assistanceType = serviceType;
     }
 
     @DynamoDBAttribute(attributeName = "price")

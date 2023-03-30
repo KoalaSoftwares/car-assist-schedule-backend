@@ -8,9 +8,9 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.una.carassistschedulebackend.entidades.Service;
-import com.una.carassistschedulebackend.models.ServiceType;
-import com.una.carassistschedulebackend.persistence.ServiceRepository;
+import com.una.carassistschedulebackend.entidades.Assistance;
+import com.una.carassistschedulebackend.models.AssistanceType;
+import com.una.carassistschedulebackend.persistence.AssistanceRepository;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
@@ -28,19 +27,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { PropertyPlaceholderAutoConfiguration.class, ServiceTests.DynamoDbConfig.class })
+@SpringBootTest(classes = { PropertyPlaceholderAutoConfiguration.class, AssistanceTests.DynamoDbConfig.class })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ServiceTests {
+public class AssistanceTests {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ServiceTests.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(AssistanceTests.class);
 
     @Configuration
-    @EnableDynamoDBRepositories(basePackageClasses = { ServiceTests.class })
+    @EnableDynamoDBRepositories(basePackageClasses = { AssistanceTests.class })
     public static class DynamoDbConfig {
 
         public AWSCredentialsProvider amazonAWSCredentialsProvider() {
@@ -61,24 +59,24 @@ public class ServiceTests {
     }
 
     @Autowired
-    private ServiceRepository repository;
+    private AssistanceRepository repository;
 
     @Test
     public void creationTest() throws ParseException {
         LOGGER.info("Creating objects...");
-        Service sv1 = new Service("Wash", BigDecimal.valueOf(520.01));
-        Service sv2 = new Service("OilChange", BigDecimal.valueOf(115.56));
-        Service sv3 = new Service("FilterChange", BigDecimal.valueOf(115.56));
+        Assistance sv1 = new Assistance("Wash", BigDecimal.valueOf(520.01));
+        Assistance sv2 = new Assistance("OilChange", BigDecimal.valueOf(115.56));
+        Assistance sv3 = new Assistance("FilterChange", BigDecimal.valueOf(115.56));
         repository.save(sv1);
         repository.save(sv2);
         repository.save(sv3);
-        Iterable<Service> list = repository.findAll();
+        Iterable<Assistance> list = repository.findAll();
         assertNotNull(list.iterator());
-        for (Service service : list) {
-            LOGGER.info(service.toString());
+        for (Assistance assistance : list) {
+            LOGGER.info(assistance.toString());
         }
         LOGGER.info("Searching an object");
-        List<Service> result = repository.findById(sv2.getId());
+        List<Assistance> result = repository.findById(sv2.getId());
         assertEquals(result.size(), 1);
         LOGGER.info("Found: {}", result.size());
     }
@@ -86,12 +84,12 @@ public class ServiceTests {
     @Test
     public void deleteTest() throws ParseException {
         LOGGER.info("Deleting objects...");
-        List<Service> result = repository.findByServiceType(ServiceType.Wash);
-        for (Service service : result) {
-            LOGGER.info("Excluindo Service id = " + service.getId());
-            repository.delete(service);
+        List<Assistance> result = repository.findByAssistanceType(AssistanceType.Wash);
+        for (Assistance assistance : result) {
+            LOGGER.info("Excluindo Service id = " + assistance.getId());
+            repository.delete(assistance);
         }
-        result = repository.findByServiceType(ServiceType.Wash);
+        result = repository.findByAssistanceType(AssistanceType.Wash);
         assertEquals(result.size(), 0);
         LOGGER.info("Successfully deleted");
     }

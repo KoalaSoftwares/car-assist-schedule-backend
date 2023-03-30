@@ -6,7 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import com.amazonaws.auth.*;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.una.carassistschedulebackend.entidades.Schedule;
-import com.una.carassistschedulebackend.models.ServiceType;
+import com.una.carassistschedulebackend.models.AssistanceType;
 import com.una.carassistschedulebackend.persistence.ScheduleRepository;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
@@ -68,11 +67,11 @@ public class ScheduleTests {
     @Test
     public void creationTest() throws ParseException {
         LOGGER.info("Creating objects...");
-        Schedule s1 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(102.34), ServiceType.OilChange.toString(), "Henrique", "HR-V", "PAID");
-        Schedule s2 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), ServiceType.Wash.toString(), "Caio", "Ferrari", "PAID");
-        Schedule s3 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), ServiceType.OilChange.toString(), "Jeff", "Lambo", "PAID");
-        Schedule s4 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(174.88), ServiceType.Wash.toString(), "Daniel", "Mercedes", "PAID");
-        Schedule s5 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(2.52), ServiceType.FilterChange.toString(), "Pedro", "Audi", "PAID");
+        Schedule s1 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(102.34), AssistanceType.OilChange.toString(), "Henrique", "HR-V", "PAID");
+        Schedule s2 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), AssistanceType.Wash.toString(), "Caio", "Ferrari", "PAID");
+        Schedule s3 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), AssistanceType.OilChange.toString(), "Jeff", "Lambo", "PAID");
+        Schedule s4 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(174.88), AssistanceType.Wash.toString(), "Daniel", "Mercedes", "PAID");
+        Schedule s5 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(2.52), AssistanceType.FilterChange.toString(), "Pedro", "Audi", "PAID");
         repository.save(s1);
         repository.save(s2);
         repository.save(s3);
@@ -84,7 +83,7 @@ public class ScheduleTests {
             LOGGER.info(schedule.toString());
         }
         LOGGER.info("Searching an object");
-        List<Schedule> result = repository.findByServiceType(ServiceType.OilChange);
+        List<Schedule> result = repository.findByAssistanceType(AssistanceType.OilChange);
         assertEquals(result.size(), 3);
         LOGGER.info("Found: {}", result.size());
     }

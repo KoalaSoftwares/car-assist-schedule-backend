@@ -1,14 +1,13 @@
 package com.una.carassistschedulebackend.business;
 
 import com.una.carassistschedulebackend.entidades.Schedule;
-import com.una.carassistschedulebackend.models.ServiceType;
+import com.una.carassistschedulebackend.models.AssistanceType;
 import com.una.carassistschedulebackend.persistence.ScheduleRepository;
 import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.management.RuntimeErrorException;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +55,11 @@ public class ScheduleService {
         return IteratorUtils.toList(list.iterator());
     }
 
-    public List<Schedule> getSchedulesByServiceType(ServiceType serviceType) {
+    public List<Schedule> getSchedulesByServiceType(AssistanceType assistanceType) {
         if (logger.isInfoEnabled()) {
-            logger.info("Searching by schedules with service type {}", serviceType);
+            logger.info("Searching by schedules with service type {}", assistanceType);
         }
-        Iterable<Schedule> list = this.scheduleRepo.findByServiceType(serviceType);
+        Iterable<Schedule> list = this.scheduleRepo.findByAssistanceType(assistanceType);
         if (list == null) {
             return new ArrayList<Schedule>();
         }
