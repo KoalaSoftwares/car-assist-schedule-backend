@@ -5,9 +5,12 @@ import static org.junit.Assert.assertNotNull;
 
 import com.amazonaws.auth.*;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
-import com.una.carassistschedulebackend.entidades.Schedule;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.una.carassistschedulebackend.entidades.Assistance;
 import com.una.carassistschedulebackend.models.AssistanceType;
-import com.una.carassistschedulebackend.persistence.ScheduleRepository;
+import com.una.carassistschedulebackend.persistence.AssistanceRepository;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,27 +25,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {PropertyPlaceholderAutoConfiguration.class, ScheduleTests.DynamoDBConfig.class})
+@SpringBootTest(classes = { PropertyPlaceholderAutoConfiguration.class, AssistanceTests.DynamoDbConfig.class })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class ScheduleTests {
+public class AssistanceTests {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ScheduleTests.class);
-    private SimpleDateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+    private static Logger LOGGER = LoggerFactory.getLogger(AssistanceTests.class);
 
     @Configuration
-    @EnableDynamoDBRepositories(basePackageClasses = {ScheduleTests.class})
-    public static class DynamoDBConfig {
+    @EnableDynamoDBRepositories(basePackageClasses = { AssistanceTests.class })
+    public static class DynamoDbConfig {
 
         public AWSCredentialsProvider amazonAWSCredentialsProvider() {
             List<AWSCredentialsProvider> providers = new ArrayList<>();
@@ -62,41 +59,37 @@ public class ScheduleTests {
     }
 
     @Autowired
-    private ScheduleRepository repository;
+    private AssistanceRepository repository;
 
     @Test
     public void creationTest() throws ParseException {
         LOGGER.info("Creating objects...");
-        Schedule s1 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(102.34), AssistanceType.OilChange.toString(), "Henrique", "HR-V", "PAID");
-        Schedule s2 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), AssistanceType.Wash.toString(), "Caio", "Ferrari", "PAID");
-        Schedule s3 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(115.56), AssistanceType.OilChange.toString(), "Jeff", "Lambo", "PAID");
-        Schedule s4 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(174.88), AssistanceType.Wash.toString(), "Daniel", "Mercedes", "PAID");
-        Schedule s5 = new Schedule(df.parse("20/03/2023"), BigDecimal.valueOf(2.52), AssistanceType.FilterChange.toString(), "Pedro", "Audi", "PAID");
-        repository.save(s1);
-        repository.save(s2);
-        repository.save(s3);
-        repository.save(s4);
-        repository.save(s5);
-        Iterable<Schedule> list = repository.findAll();
+        Assistance sv1 = new Assistance("Wash", BigDecimal.valueOf(520.01));
+        Assistance sv2 = new Assistance("OilChange", BigDecimal.valueOf(115.56));
+        Assistance sv3 = new Assistance("FilterChange", BigDecimal.valueOf(115.56));
+        repository.save(sv1);
+        repository.save(sv2);
+        repository.save(sv3);
+        Iterable<Assistance> list = repository.findAll();
         assertNotNull(list.iterator());
-        for (Schedule schedule : list) {
-            LOGGER.info(schedule.toString());
+        for (Assistance assistance : list) {
+            LOGGER.info(assistance.toString());
         }
         LOGGER.info("Searching an object");
-        List<Schedule> result = repository.findByAssistanceType(AssistanceType.OilChange);
-        assertEquals(result.size(), 3);
+        List<Assistance> result = repository.findById(sv2.getId());
+        assertEquals(result.size(), 1);
         LOGGER.info("Found: {}", result.size());
     }
 
     @Test
     public void deleteTest() throws ParseException {
         LOGGER.info("Deleting objects...");
-        List<Schedule> result = repository.findByClientName("Henrique");
-        for (Schedule schedule : result) {
-            LOGGER.info("Excluindo Schedule id = " + schedule.getId());
-            repository.delete(schedule);
+        List<Assistance> result = repository.findByAssistanceType(AssistanceType.Wash);
+        for (Assistance assistance : result) {
+            LOGGER.info("Excluindo Service id = " + assistance.getId());
+            repository.delete(assistance);
         }
-        result = repository.findByClientName("Henrique");
+        result = repository.findByAssistanceType(AssistanceType.Wash);
         assertEquals(result.size(), 0);
         LOGGER.info("Successfully deleted");
     }

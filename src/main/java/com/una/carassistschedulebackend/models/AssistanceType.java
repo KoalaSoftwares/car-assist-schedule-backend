@@ -1,6 +1,6 @@
 package com.una.carassistschedulebackend.models;
 
-public enum ServiceType {
+public enum AssistanceType {
     Wash,
     OilChange,
     FilterChange,
