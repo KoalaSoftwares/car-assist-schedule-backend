@@ -1,4 +1,4 @@
-package com.una.carassistschedulebackend.entidades;
+package com.una.carassistschedulebackend.entities;
 
 import java.math.BigDecimal;
 import java.util.Date;
