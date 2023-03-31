@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import com.amazonaws.auth.*;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
-import com.una.carassistschedulebackend.entidades.Schedule;
+import com.una.carassistschedulebackend.entities.Schedule;
 import com.una.carassistschedulebackend.models.AssistanceType;
 import com.una.carassistschedulebackend.persistence.ScheduleRepository;
 import org.junit.FixMethodOrder;

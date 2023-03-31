@@ -1,6 +1,6 @@
 package com.una.carassistschedulebackend.business;
 
-import com.una.carassistschedulebackend.entidades.Assistance;
+import com.una.carassistschedulebackend.entities.Assistance;
 import com.una.carassistschedulebackend.models.AssistanceType;
 import com.una.carassistschedulebackend.persistence.AssistanceRepository;
 import org.apache.commons.collections4.IteratorUtils;

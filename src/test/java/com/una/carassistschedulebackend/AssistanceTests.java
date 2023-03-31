@@ -8,7 +8,7 @@ import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.una.carassistschedulebackend.entidades.Assistance;
+import com.una.carassistschedulebackend.entities.Assistance;
 import com.una.carassistschedulebackend.models.AssistanceType;
 import com.una.carassistschedulebackend.persistence.AssistanceRepository;
 import org.junit.FixMethodOrder;
@@ -76,7 +76,7 @@ public class AssistanceTests {
             LOGGER.info(assistance.toString());
         }
         LOGGER.info("Searching an object");
-        List<Assistance> result = repository.findById(sv2.getId());
+        List<Assistance> result = repository.findByAssistanceType(AssistanceType.Wash);
         assertEquals(result.size(), 1);
         LOGGER.info("Found: {}", result.size());
     }
