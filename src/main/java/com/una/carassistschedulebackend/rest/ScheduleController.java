@@ -22,7 +22,7 @@ public class ScheduleController {
     }
 
     @GetMapping(value="")
-    public List<Schedule> getS() {
+    public List<Schedule> getSchedules() {
         return this.scheduleService.getSchedules();
     }
 
