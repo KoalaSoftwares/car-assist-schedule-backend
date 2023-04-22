@@ -14,7 +14,7 @@
 	<name>car-assist-schedule-backend </name>
 	<description>car-assist-schedule-backend </description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencyManagement>
