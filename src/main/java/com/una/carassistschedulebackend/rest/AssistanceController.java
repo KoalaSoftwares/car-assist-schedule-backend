@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "assistance")
+@CrossOrigin(origins = "*", allowedHeaders = {"Authorization", "Content-Type"})
 public class AssistanceController {
     private final AssistanceService assistanceService;
 

@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "schedule")
+@CrossOrigin(origins = "*", allowedHeaders = {"Authorization", "Content-Type"})
 public class ScheduleController {
     private final ScheduleService scheduleService;
 
